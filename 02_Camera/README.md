@@ -2,14 +2,16 @@
 
 ### Outline
 I.  Basics
+
 II. Collision Detection System
 1. Collision Detection Basics
 2. Estimate TTC with Lidar
 3. Estimate TTC with a Camera
 
 III. Tracking Images Features
-1. Intensity Gradient and Filtering
-[2. Harris Corner Detection](#harriscornerdetection)
+
+1. [Intensity Gradient and Filtering](#intensitygradient)
+2. [Harris Corner Detection](#harriscornerdetection)
 
 ### II. Collision Detection System
 #### 2.1. Collision Detection Basics
@@ -42,7 +44,7 @@ b. Constant Velocity vs. Constant Acceleration
 ![Image4](./images/pinhole-1.png)
 
 ### III. Tracking Image Features
-#### 3.1. Intensity Gradient and Filtering
+#### <a name="intensitygradient"></a>3.1. Intensity Gradient and Filtering
 a. Locating keypoints in an images
 ![Image5](./images/keypoints.jpg)
     - Left: distinctive constrast between bright and dark pixels
