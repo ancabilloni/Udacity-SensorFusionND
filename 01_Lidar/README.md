@@ -16,6 +16,12 @@
 
 ![Image0](./images/pcd-coordinates.png)
 
+## Challenge in using LiDAR
+- Does not do when in heavy rain, lot of dust in the air (sandstorm).
+- Any environmental effect in the air highly affect lidar.
+- Reflective surface bouncing beams around.
+- Water splash on the object makes lidar sees strangely.
+
 ## PointClouds
 - Pointclouds (pc) are the set of all lidar reflections that are measured. Each point is one laser beam going to the object being reflected that created a point because the laser beam is relatively tight in diameter.
 - Generate about 100MB/s roughly (more or less). Depends on how many laser and resolution in field of view. Example: 64 lasers/detector with 360 field of view, 0.08 degree resolution updating at 10hz will generate **64x(360/0.08)x10** points.
@@ -38,7 +44,6 @@ https://github.com/ancabilloni/SFND_Lidar_Obstacle_Detection
 - To display lidar point clouds, use `renderPointCloud` function.
 - Try with the lidar parameters in the //TO DO tag in `lidar.h` to simulate different output point clouds for different lidar spec.
 
-### Segmentation
 #### Exercise 2: PointCloud Segmentation
 - Work with 2 files: `processPointClouds.cpp` and `environment.cpp`
 - Create a `processPointClouds` object either on the stack or on the heap.
@@ -115,7 +120,36 @@ https://github.com/ancabilloni/SFND_Lidar_Obstacle_Detection
 - Result of using 1.0 mm distance, 3 min and 30 max point sizes.
 ![Image3](./images/clustering.png)
 
+#### Bounding box
+- Easy way of dealing with objects. We just associate the points with a box or not.
+- The down size is we make model assumption about the size of the bounding box that we assign to a car or pedestrian. 
+- Alternative: bounding polygon (more precise), track pixels.
+
+- Adding bounding box to clusters
+  Adding these pre-defined function to `environment.cpp` in `simpleHighway` function.
+  ```
+  Box box = pointProcessor->BoundingBox(cluster);
+  renderBox(viewer,box,clusterId)
+  ```
+![Image4](./images/box_render.png)
+
 #### KD-Tree
+- A KD-Tree is a binary tree that splits points between alternating axes. By separating space by splitting regions,, nearest neighbor search can be made much faster when using an algorithm like euclidean clustering. 
+- 
 
 
-### Downsampling Data
+
+## Downsampling Data
+- Lower the number of pointclouds from raw data to improve processing power/speed. 
+
+### Voxel Grid Filtering
+- Create cubic grid and filter the cloud by only leaving a single point per voxel cube.
+- The larger the cube length the lower the resolution of the point cloud.
+
+### Region of Interest
+- A boxed region is defined and any points outside of that box is removed.
+
+### Exercise:
+- Complete `FilterCloud` function in `processPointClouds.cpp`
+- [VoxelGrid tutorial](http://pointclouds.org/documentation/tutorials/voxel_grid.php), [region of interest](http://docs.pointclouds.org/trunk/classpcl_1_1_crop_box.html)
+
